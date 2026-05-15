@@ -2134,24 +2134,22 @@ footer {
         <p style="text-align:center;color:var(--gray);font-size:13px;margin-bottom:24px;">Новый VPN ключ для клиента</p>
 
         <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Тариф</label>
-        <select id="ck-tariff" style="width:100%;background:rgba(61,158,255,0.08);border:1px solid rgba(61,158,255,0.2);border-radius:8px;padding:10px 14px;color:var(--white);font-size:14px;font-family:'Exo 2',sans-serif;margin-bottom:14px;appearance:none;">
-          <option value="1m">1 месяц — 50 ₽</option>
-          <option value="3m">3 месяца — 150 ₽</option>
-          <option value="6m">6 месяцев — 300 ₽</option>
-          <option value="12m">12 месяцев — 600 ₽</option>
+        <select id="ck-tariff" style="width:100%;background:#0a1628;border:1px solid rgba(61,158,255,0.2);border-radius:8px;padding:10px 14px;color:#ffffff;font-size:14px;font-family:'Exo 2',sans-serif;margin-bottom:14px;appearance:none;-webkit-appearance:none;">
+          <option value="1m" style="background:#0a1628;color:#ffffff;">1 месяц — 50 ₽</option>
+          <option value="3m" style="background:#0a1628;color:#ffffff;">3 месяца — 150 ₽</option>
+          <option value="6m" style="background:#0a1628;color:#ffffff;">6 месяцев — 300 ₽</option>
+          <option value="12m" style="background:#0a1628;color:#ffffff;">12 месяцев — 600 ₽</option>
         </select>
 
-        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Устройств</label>
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Устройств (мин. 3)</label>
         <div style="display:flex;gap:8px;margin-bottom:14px;" id="ck-devices-btns">
-          <button onclick="selectDevices(this,1)" class="sub-action-btn" style="flex:1;padding:10px 0;">1</button>
-          <button onclick="selectDevices(this,2)" class="sub-action-btn" style="flex:1;padding:10px 0;">2</button>
           <button onclick="selectDevices(this,3)" class="sub-action-btn primary" style="flex:1;padding:10px 0;">3</button>
           <button onclick="selectDevices(this,5)" class="sub-action-btn" style="flex:1;padding:10px 0;">5</button>
           <button onclick="selectDevices(this,10)" class="sub-action-btn" style="flex:1;padding:10px 0;">10</button>
         </div>
 
-        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Метка (необязательно)</label>
-        <input id="ck-label" type="text" placeholder="Например: ivan_petrov" class="modal-input" style="margin-bottom:20px;">
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Telegram ID или Email клиента</label>
+        <input id="ck-label" type="text" placeholder="Например: 123456789 или client@mail.com" class="modal-input" style="margin-bottom:20px;">
 
         <button class="modal-submit" onclick="createKey()" id="ck-btn">Создать ключ →</button>
 
@@ -2751,12 +2749,20 @@ function switchTab(tab) {
 }
 
 function copyUrl(url, btn) {
-  navigator.clipboard.writeText(url).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = '✓ Скопировано';
-    btn.style.color = 'var(--success)';
-    setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
-  });
+  if (!url || url === 'undefined') {
+    alert('Ссылка пустая');
+    return;
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      const orig = btn ? btn.textContent : '';
+      if (btn) { btn.textContent = '✓ Скопировано'; btn.style.color = 'var(--success)'; }
+      setTimeout(() => { if (btn) { btn.textContent = orig; btn.style.color = ''; } }, 2000);
+    }).catch(() => { prompt('Скопируйте ссылку:', url); });
+  } else {
+    // Fallback для старых браузеров/iOS
+    prompt('Скопируйте ссылку:', url);
+  }
 }
 
 // === UPDATE NAV AFTER LOGIN ===
@@ -3225,7 +3231,7 @@ function openCreateKeyModal(tariff) {
   if (tariff) document.getElementById('ck-tariff').value = tariff;
   _ckDevices = 3;
   document.querySelectorAll('#ck-devices-btns button').forEach(b => b.classList.remove('primary'));
-  document.querySelectorAll('#ck-devices-btns button')[2].classList.add('primary');
+  document.querySelectorAll('#ck-devices-btns button')[0].classList.add('primary');
 }
 function closeCreateKeyModal() { document.getElementById('create-key-modal').style.display = 'none'; }
 
@@ -3251,17 +3257,28 @@ async function createKey() {
     });
     const data = await r.json();
     if (data.ok) {
+      const url = data.subUrl || data.sub_url || '';
       document.getElementById('ck-result').style.display = 'block';
-      document.getElementById('ck-sub-url').textContent = data.subUrl || data.sub_url;
+      document.getElementById('ck-sub-url').textContent = url || 'Ссылка создаётся, проверьте список ключей';
       btn.textContent = '✓ Создан!';
+      if (url) {
+        document.querySelector('#ck-result .sub-action-btn').onclick = () => {
+          navigator.clipboard.writeText(url).then(() => {
+            document.querySelector('#ck-result .sub-action-btn').textContent = '✓ Скопировано!';
+            setTimeout(() => { document.querySelector('#ck-result .sub-action-btn').textContent = '📋 Скопировать ссылку'; }, 2000);
+          }).catch(() => {
+            prompt('Скопируйте ссылку:', url);
+          });
+        };
+      }
       loadResellerClients();
     } else {
       btn.disabled = false; btn.textContent = 'Создать ключ →';
-      alert('Ошибка: ' + JSON.stringify(data));
+      alert('Ошибка: ' + (data.detail || JSON.stringify(data)));
     }
   } catch(e) {
     btn.disabled = false; btn.textContent = 'Создать ключ →';
-    alert('Ошибка соединения');
+    alert('Ошибка соединения: ' + e.message);
   }
 }
 
