@@ -3155,7 +3155,10 @@ let _ckDevices = 3;
 let _ecDevices = null;
 let _ecStatus = 'ACTIVE';
 
+let _resellerTabActive = '';
 function resellerTab(tab, btn) {
+  if (_resellerTabActive === tab) return;
+  _resellerTabActive = tab;
   document.querySelectorAll('.reseller-nav').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   ['keys','create','subpage','tariffs'].forEach(t => {
