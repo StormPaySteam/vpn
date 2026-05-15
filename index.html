@@ -6,6 +6,15 @@
 <title>SKER.NET — Надёжный VPN</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/twemoji.min.js" crossorigin="anonymous"></script>
+<style>
+img.emoji {
+  height: 1.2em;
+  width: 1.2em;
+  vertical-align: -0.2em;
+  display: inline-block;
+}
+</style>
 <style>
 :root {
   --blue-dark: #020c1b;
@@ -332,16 +341,22 @@ h2 {
 .feature-card:hover { background: rgba(26,111,219,0.1); }
 
 .feature-icon {
-  width: 52px;
-  height: 52px;
-  background: rgba(26,111,219,0.2);
+  width: 56px;
+  height: 56px;
+  background: rgba(26,111,219,0.15);
   border: 1px solid rgba(61,158,255,0.3);
-  border-radius: 12px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
   margin-bottom: 20px;
+  color: var(--blue-bright);
+  box-shadow: 0 0 20px rgba(61,158,255,0.1);
+  transition: box-shadow 0.3s, background 0.3s;
+}
+.feature-card:hover .feature-icon {
+  background: rgba(26,111,219,0.25);
+  box-shadow: 0 0 30px rgba(61,158,255,0.2);
 }
 
 .feature-title {
@@ -566,16 +581,18 @@ h2 {
 .reseller-benefits li:last-child { border-bottom: none; }
 
 .benefit-icon {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   background: rgba(26,111,219,0.2);
-  border-radius: 8px;
+  border: 1px solid rgba(61,158,255,0.25);
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  font-size: 16px;
+  color: var(--blue-bright);
 }
+.benefit-icon svg { width: 20px; height: 20px; }
 
 /* === AUTH MODAL === */
 .modal-overlay {
@@ -1196,7 +1213,7 @@ footer {
 }
 .method-card:hover { border-color: var(--blue-accent); background: rgba(26,111,219,0.1); }
 .method-card.selected { border-color: var(--blue-bright); background: rgba(26,111,219,0.15); }
-.method-card-icon { font-size: 32px; margin-bottom: 8px; }
+.method-card-icon { font-size: 32px; margin-bottom: 8px; display:flex; align-items:center; justify-content:center; }
 .method-card-name { font-size: 14px; font-weight: 700; }
 .method-card-desc { font-size: 12px; color: var(--gray); margin-top: 4px; }
 
@@ -1518,32 +1535,44 @@ footer {
   <p class="section-desc">Современный протокол VLESS Reality обеспечивает максимальную скрытность и скорость.</p>
   <div class="features-grid reveal">
     <div class="feature-card">
-      <div class="feature-icon">🛡️</div>
+      <div class="feature-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
       <div class="feature-title">VLESS Reality</div>
       <div class="feature-desc">Новейший протокол который невозможно заблокировать. Выглядит как обычный HTTPS трафик.</div>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">⚡</div>
+      <div class="feature-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
       <div class="feature-title">Высокая скорость</div>
       <div class="feature-desc">Выделенные серверы с каналами 10 Гбит/с. YouTube 4K, стриминг без буферизации.</div>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🌍</div>
+      <div class="feature-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
       <div class="feature-title">6 стран</div>
       <div class="feature-desc">Нидерланды, Германия, Финляндия, Швеция, США. Выберите ближайший сервер.</div>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">📱</div>
+      <div class="feature-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+      </div>
       <div class="feature-title">Все устройства</div>
       <div class="feature-desc">iOS, Android, Windows, macOS, Linux. Одна подписка — до 3 устройств одновременно.</div>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🔒</div>
+      <div class="feature-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
       <div class="feature-title">Без логов</div>
       <div class="feature-desc">Мы не храним историю активности. Ваши данные — только ваши данные.</div>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🤖</div>
+      <div class="feature-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
       <div class="feature-title">Telegram-бот</div>
       <div class="feature-desc">Управляйте подпиской прямо в Telegram. Покупка, продление, ключи — без лишних шагов.</div>
     </div>
@@ -1578,10 +1607,10 @@ footer {
       <h2>Стань реселлером</h2>
       <p style="color:var(--gray);font-size:16px;line-height:1.8;margin-top:16px;">Продавай VPN под своим брендом. Мы предоставляем инфраструктуру — ты получаешь прибыль.</p>
       <ul class="reseller-benefits">
-        <li><div class="benefit-icon">💰</div><div><strong>Оптовые цены</strong><br><span style="color:var(--gray);font-size:13px;">От 50 руб/ключ. Наценяй сколько хочешь.</span></div></li>
-        <li><div class="benefit-icon">🤖</div><div><strong>Свой Telegram-бот</strong><br><span style="color:var(--gray);font-size:13px;">Брендированный бот с твоим логотипом и ценами.</span></div></li>
-        <li><div class="benefit-icon">📊</div><div><strong>Панель управления</strong><br><span style="color:var(--gray);font-size:13px;">Статистика, ключи, покупатели — всё в одном месте.</span></div></li>
-        <li><div class="benefit-icon">🛠️</div><div><strong>Техподдержка</strong><br><span style="color:var(--gray);font-size:13px;">Мы занимаемся серверами. Ты занимаешься продажами.</span></div></li>
+        <li><div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><strong>Оптовые цены</strong><br><span style="color:var(--gray);font-size:13px;">От 50 руб/ключ. Наценяй сколько хочешь.</span></div></li>
+        <li><div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><strong>Свой Telegram-бот</strong><br><span style="color:var(--gray);font-size:13px;">Брендированный бот с твоим логотипом и ценами.</span></div></li>
+        <li><div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div><strong>Панель управления</strong><br><span style="color:var(--gray);font-size:13px;">Статистика, ключи, покупатели — всё в одном месте.</span></div></li>
+        <li><div class="benefit-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div><div><strong>Техподдержка</strong><br><span style="color:var(--gray);font-size:13px;">Мы занимаемся серверами. Ты занимаешься продажами.</span></div></li>
       </ul>
       <a href="#" class="btn-primary" style="margin-top:32px;display:inline-flex;" onclick="openAuthModal(() => { openDashboard(currentUser); setTimeout(() => switchTab('reseller'), 100); })">
         Стать реселлером →
@@ -2014,17 +2043,23 @@ footer {
 
     <!-- STEP 1: Choose method -->
     <div id="auth-step-1">
-      <div style="font-size:36px;margin-bottom:12px;">🛡️</div>
+      <div style="width:56px;height:56px;background:rgba(26,111,219,0.2);border:1px solid rgba(61,158,255,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--blue-bright);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
       <h3 style="margin-bottom:8px;">Войти или зарегистрироваться</h3>
       <p style="color:var(--gray);font-size:14px;margin-bottom:24px;">Выберите способ входа</p>
       <div class="method-cards">
         <div class="method-card" onclick="selectAuthMethod('email')">
-          <div class="method-card-icon">✉️</div>
+          <div class="method-card-icon" style="color:var(--blue-bright);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
           <div class="method-card-name">Email</div>
           <div class="method-card-desc">Почта и пароль</div>
         </div>
         <div class="method-card" onclick="selectAuthMethod('telegram')">
-          <div class="method-card-icon">✈️</div>
+          <div class="method-card-icon" style="color:var(--blue-bright);">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+          </div>
           <div class="method-card-name">Telegram</div>
           <div class="method-card-desc">Через бот @internet_r0bot</div>
         </div>
@@ -2033,7 +2068,9 @@ footer {
 
     <!-- STEP 2a: Email form -->
     <div id="auth-step-2-email" style="display:none;">
-      <div style="font-size:36px;margin-bottom:12px;">✉️</div>
+      <div style="width:56px;height:56px;background:rgba(26,111,219,0.2);border:1px solid rgba(61,158,255,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--blue-bright);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
       <h3 style="margin-bottom:8px;">Вход через Email</h3>
       <p style="color:var(--gray);font-size:14px;margin-bottom:24px;">Введите почту — мы пришлём код подтверждения</p>
       <input class="modal-input" type="email" id="email-input" placeholder="your@email.com">
@@ -2048,7 +2085,9 @@ footer {
 
     <!-- STEP 2b: Telegram form -->
     <div id="auth-step-2-telegram" style="display:none;">
-      <div style="font-size:36px;margin-bottom:12px;">✈️</div>
+      <div style="width:56px;height:56px;background:rgba(26,111,219,0.2);border:1px solid rgba(61,158,255,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--blue-bright);">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+      </div>
       <h3 style="margin-bottom:8px;">Вход через Telegram</h3>
       <div class="tg-code-box">
         <div style="font-size:14px;color:var(--blue-light);margin-bottom:4px;">Откройте бота и нажмите «Войти»</div>
@@ -2873,6 +2912,24 @@ renderPricing();
 calcProfit();
 setInterval(updatePings, 3000);
 restoreSession();
+
+// Twemoji — красивые эмодзи
+twemoji.parse(document.body, {
+  folder: 'svg',
+  ext: '.svg',
+  base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/',
+  callback: (icon, options) => `${options.base}${options.size}/${icon}${options.ext}`,
+});
+
+// Обновляем эмодзи при динамическом рендере (дашборд, подписки)
+const _origOpenDashboard = openDashboard;
+window.openDashboard = function(user) {
+  _origOpenDashboard(user);
+  setTimeout(() => twemoji.parse(document.body, {
+    folder: 'svg', ext: '.svg',
+    base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/',
+  }), 100);
+};
 </script>
 </body>
 </html>
