@@ -872,12 +872,15 @@ footer {
 
 /* Mobile dashboard fixes */
 @media (max-width: 900px) {
-  .dashboard-nav { padding: 12px 16px; }
+  .dashboard-nav { padding: 12px 16px; gap: 8px; }
+  .nav-logo-text { display: none; }
+  .dash-user-info { display: none; }
   .dash-content { padding: 16px; }
-  .dash-grid { grid-template-columns: 1fr; }
-  .dash-tabs { gap: 6px; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
-  .dash-tab { white-space: nowrap; font-size: 12px; padding: 8px 12px; }
+  .dash-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .dash-tabs { gap: 6px; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .dash-tab { white-space: nowrap; font-size: 12px; padding: 8px 14px; flex-shrink: 0; }
   #dashboard { -webkit-overflow-scrolling: touch; }
+  .dash-card-val { font-size: 28px; }
 }
 
 /* === RESPONSIVE === */
@@ -1954,32 +1957,31 @@ footer {
 <!-- DASHBOARD -->
 <div id="dashboard">
   <div class="dashboard-nav">
-    <a href="#" class="nav-logo" style="font-size:18px;" onclick="closeDashboard()">
-      <svg viewBox="0 0 100 100" fill="none" style="width:28px;height:28px;">
+    <a href="#" class="nav-logo" style="font-size:16px;" onclick="closeDashboard()">
+      <svg viewBox="0 0 100 100" fill="none" style="width:24px;height:24px;">
         <path d="M50 5L10 25V55C10 75 28 90 50 97C72 90 90 75 90 55V25L50 5Z" fill="rgba(26,111,219,0.4)" stroke="rgba(61,158,255,0.8)" stroke-width="3"/>
         <path d="M35 52L45 62L65 40" stroke="#5bb4ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      SKER.NET
+      <span class="nav-logo-text">SKER.NET</span>
     </a>
     <div class="dash-user">
       <div class="dash-avatar" id="dash-avatar">U</div>
-      <div>
+      <div class="dash-user-info">
         <div class="dash-name" id="dash-name">Пользователь</div>
         <div class="dash-role" id="dash-role">// клиент</div>
       </div>
     </div>
-    <div style="display:flex;gap:12px;align-items:center;">
-      <a href="https://t.me/internet_r0bot" target="_blank" class="sub-action-btn primary" style="font-size:13px;">+ Купить подписку</a>
-      <button class="logout-btn" onclick="closeDashboard()">← На сайт</button>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="logout-btn" onclick="closeDashboard()" style="padding:8px 14px;font-size:12px;">← На сайт</button>
     </div>
   </div>
 
   <div class="dash-body">
     <!-- TABS -->
     <div class="dash-tabs" id="dash-tabs">
-      <button class="dash-tab active" onclick="switchTab('subscriptions')">📦 Мои подписки</button>
-      <button class="dash-tab" onclick="switchTab('reseller')" id="tab-reseller" style="display:none;">💼 Реселлер</button>
-      <button class="dash-tab" onclick="switchTab('settings')">⚙️ Настройки</button>
+      <button class="dash-tab active" onclick="switchTab('subscriptions')">Мои подписки</button>
+      <button class="dash-tab" onclick="switchTab('reseller')" id="tab-reseller" style="display:none;">Реселлер</button>
+      <button class="dash-tab" onclick="switchTab('settings')">Настройки</button>
     </div>
 
     <!-- SUBSCRIPTIONS PANEL -->
@@ -2621,14 +2623,12 @@ function logout() {
   localStorage.removeItem('sker_token');
   localStorage.removeItem('sker_user');
   currentUser = null;
-  // Reset nav button
-  const navBtn = document.querySelector('.nav-btn');
-  if (navBtn) {
-    navBtn.textContent = 'Войти';
-    navBtn.onclick = () => openAuthModal();
-    navBtn.style.background = '';
-    navBtn.style.border = '';
-  }
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.textContent = 'Войти';
+    btn.onclick = () => openAuthModal();
+    btn.style.background = '';
+    btn.style.border = '';
+  });
   const mobileBtn = document.getElementById('mobile-login-btn');
   if (mobileBtn) { mobileBtn.textContent = 'Войти'; mobileBtn.onclick = () => openAuthModal(); }
   closeDashboard();
@@ -2925,22 +2925,22 @@ function authSuccess(user) {
 }
 
 function updateNavForUser(user) {
-  // Обрезаем имя: убираем скобки, спецсимволы, берём первое слово до 12 символов
   const rawName = user.name || 'Кабинет';
   const cleanName = rawName.replace(/[()[\]{}]/g, '').trim();
   const shortName = cleanName.split(' ')[0].slice(0, 12);
-  const label = '👤 ' + shortName;
+  const label = shortName || 'Кабинет';
 
-  const navBtn = document.querySelector('.nav-btn');
-  if (navBtn && user) {
-    navBtn.textContent = label;
-    navBtn.onclick = (e) => { e.preventDefault(); openDashboard(user); };
-    navBtn.style.background = 'rgba(61,158,255,0.15)';
-    navBtn.style.border = '1px solid rgba(61,158,255,0.4)';
-  }
+  // Обновляем ВСЕ кнопки nav-btn
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.textContent = '👤 ' + label;
+    btn.onclick = (e) => { e.preventDefault(); openDashboard(user); };
+    btn.style.background = 'rgba(61,158,255,0.15)';
+    btn.style.border = '1px solid rgba(61,158,255,0.4)';
+  });
+
   const mobileBtn = document.getElementById('mobile-login-btn');
   if (mobileBtn && user) {
-    mobileBtn.textContent = label;
+    mobileBtn.textContent = '👤 ' + label;
     mobileBtn.onclick = (e) => { e.preventDefault(); openDashboard(user); };
     mobileBtn.style.display = 'inline-flex';
   }
@@ -3368,23 +3368,13 @@ async function saveSubpage() {
   btn.disabled = false; btn.textContent = 'Сохранить →';
 }
 
-// Twemoji — красивые эмодзи
+// Twemoji — красивые эмодзи (только для основной страницы, не дашборда)
 twemoji.parse(document.body, {
   folder: 'svg',
   ext: '.svg',
   base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/',
   callback: (icon, options) => `${options.base}${options.size}/${icon}${options.ext}`,
 });
-
-// Обновляем эмодзи при динамическом рендере (дашборд, подписки)
-const _origOpenDashboard = openDashboard;
-window.openDashboard = function(user) {
-  _origOpenDashboard(user);
-  setTimeout(() => twemoji.parse(document.body, {
-    folder: 'svg', ext: '.svg',
-    base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/',
-  }), 100);
-};
 </script>
 </body>
 </html>
