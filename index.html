@@ -2369,6 +2369,10 @@ function logout() {
 function renderDashboard() {
   const u = currentUser;
 
+  // Нормализуем поля пользователя (snake_case → camelCase)
+  u.isReseller = u.isReseller || u.is_reseller || false;
+  u.resellerData = u.resellerData || u.reseller_data || null;
+
   // Nav
   document.getElementById('dash-avatar').textContent = u.name[0].toUpperCase();
   document.getElementById('dash-name').textContent = u.name;
@@ -2383,6 +2387,18 @@ function renderDashboard() {
   if (u.isReseller) {
     document.getElementById('tab-reseller').style.display = 'block';
   }
+
+  // Нормализуем поля подписок (snake_case → camelCase)
+  u.subscriptions = (u.subscriptions || []).map(s => ({
+    ...s,
+    expireAt:     s.expireAt     || s.expire_at     || '—',
+    daysLeft:     s.daysLeft     != null ? s.daysLeft     : (s.days_left     != null ? s.days_left     : '—'),
+    trafficUsed:  s.trafficUsed  != null ? s.trafficUsed  : (s.traffic_used_gb != null ? s.traffic_used_gb : 0),
+    trafficLimit: s.trafficLimit != null ? s.trafficLimit : (s.traffic_limit  != null ? s.traffic_limit  : 0),
+    subUrl:       s.subUrl       || s.sub_url       || '',
+    tariffName:   s.tariffName   || s.tariff_name   || s.tariff || 'VPN',
+    status:       (s.status || 'active').toLowerCase(),
+  }));
 
   // Stats
   const activeSubs = u.subscriptions.filter(s => s.status === 'active');
@@ -2432,12 +2448,12 @@ function renderDashboard() {
         <div style="font-size:12px;color:var(--gray);margin-bottom:4px;">Трафик: ${s.trafficUsed} / ${s.trafficLimit} ГБ (${pct.toFixed(1)}%)</div>
         <div class="traffic-bar"><div class="traffic-fill" style="width:${pct}%"></div></div>
         <div class="sub-url-box">
-          <div class="sub-url-text">${s.url}</div>
-          <button class="copy-btn" onclick="copyUrl('${s.url}', this)">📋 Скопировать</button>
+          <div class="sub-url-text">${s.subUrl || s.sub_url || ''}</div>
+          <button class="copy-btn" onclick="copyUrl('${s.subUrl || s.sub_url || ''}', this)">📋 Скопировать</button>
         </div>
         <div class="sub-actions">
           <a href="https://t.me/internet_r0bot" target="_blank" class="sub-action-btn primary">🔄 Продлить</a>
-          <button class="sub-action-btn" onclick="copyUrl('${s.url}', this)">📋 Копировать ссылку</button>
+          <button class="sub-action-btn" onclick="copyUrl('${s.subUrl || s.sub_url || ''}', this)">📋 Копировать ссылку</button>
           <button class="sub-action-btn" onclick="alert('Инструкция: скачайте Happ → нажмите + → URL → вставьте ссылку')">📱 Инструкция</button>
           <button class="sub-action-btn" onclick="alert('Запрос на сброс устройств отправлен в бот')">🔄 Сменить устройство</button>
         </div>
