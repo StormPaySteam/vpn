@@ -2531,6 +2531,8 @@ function selectAuthMethod(method) {
 }
 
 async function sendEmailCode() {
+  const cb = document.getElementById('terms-check-email');
+  if (cb && !cb.checked) { alert('Необходимо принять Пользовательское соглашение'); return; }
   const email = document.getElementById('email-input').value.trim();
   const name = document.getElementById('name-input').value.trim();
   if (!email || !email.includes('@')) { alert('Введите корректный email'); return; }
@@ -2591,6 +2593,8 @@ async function verifyEmailCode() {
 }
 
 async function verifyTgCode() {
+  const cb = document.getElementById('terms-check-tg');
+  if (cb && !cb.checked) { alert('Необходимо принять Пользовательское соглашение'); return; }
   const code = document.getElementById('tg-code-input').value.trim();
   if (code.length < 6) { alert('Введите 6-значный код из бота'); return; }
 
@@ -2845,25 +2849,7 @@ function switchTermsTab(tab, btn) {
 }
 
 // Validate terms checkbox before proceeding
-const _origSendEmailCode = sendEmailCode;
-async function sendEmailCode() {
-  const cb = document.getElementById('terms-check-email');
-  if (cb && !cb.checked) {
-    alert('Необходимо принять Пользовательское соглашение');
-    return;
-  }
-  await _origSendEmailCode();
-}
-
-const _origVerifyTgCode = verifyTgCode;
-async function verifyTgCode() {
-  const cb = document.getElementById('terms-check-tg');
-  if (cb && !cb.checked) {
-    alert('Необходимо принять Пользовательское соглашение');
-    return;
-  }
-  await _origVerifyTgCode();
-}
+// Terms check integrated into main functions
 
 // === INIT ===
 renderServers();
