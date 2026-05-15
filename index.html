@@ -870,6 +870,16 @@ footer {
   transform: translateY(0);
 }
 
+/* Mobile dashboard fixes */
+@media (max-width: 900px) {
+  .dashboard-nav { padding: 12px 16px; }
+  .dash-content { padding: 16px; }
+  .dash-grid { grid-template-columns: 1fr; }
+  .dash-tabs { gap: 6px; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+  .dash-tab { white-space: nowrap; font-size: 12px; padding: 8px 12px; }
+  #dashboard { -webkit-overflow-scrolling: touch; }
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 900px) {
   nav { padding: 16px 20px; }
@@ -2591,9 +2601,14 @@ let currentUser = null;
 
 function openDashboard(user) {
   currentUser = user || DEMO_USER;
-  renderDashboard();
+  try {
+    renderDashboard();
+  } catch(e) {
+    console.error('renderDashboard error:', e);
+  }
   document.getElementById('dashboard').style.display = 'block';
   document.body.style.overflow = 'hidden';
+  window.scrollTo(0, 0);
 }
 
 function closeDashboard() {
@@ -2627,8 +2642,8 @@ function renderDashboard() {
   u.resellerData = u.resellerData || u.reseller_data || null;
 
   // Nav
-  document.getElementById('dash-avatar').textContent = u.name[0].toUpperCase();
-  document.getElementById('dash-name').textContent = u.name;
+  document.getElementById('dash-avatar').textContent = (u.name || 'U')[0].toUpperCase();
+  document.getElementById('dash-name').textContent = u.name || 'Пользователь';
   document.getElementById('dash-role').textContent = u.isReseller ? '// реселлер' : '// клиент';
 
   // Settings
@@ -2910,17 +2925,24 @@ function authSuccess(user) {
 }
 
 function updateNavForUser(user) {
+  // Обрезаем имя: убираем скобки, спецсимволы, берём первое слово до 12 символов
+  const rawName = user.name || 'Кабинет';
+  const cleanName = rawName.replace(/[()[\]{}]/g, '').trim();
+  const shortName = cleanName.split(' ')[0].slice(0, 12);
+  const label = '👤 ' + shortName;
+
   const navBtn = document.querySelector('.nav-btn');
   if (navBtn && user) {
-    navBtn.textContent = '👤 ' + (user.name ? user.name.split(' ')[0] : 'Кабинет');
+    navBtn.textContent = label;
     navBtn.onclick = (e) => { e.preventDefault(); openDashboard(user); };
     navBtn.style.background = 'rgba(61,158,255,0.15)';
     navBtn.style.border = '1px solid rgba(61,158,255,0.4)';
   }
   const mobileBtn = document.getElementById('mobile-login-btn');
   if (mobileBtn && user) {
-    mobileBtn.textContent = '👤 ' + (user.name ? user.name.split(' ')[0] : 'Кабинет');
+    mobileBtn.textContent = label;
     mobileBtn.onclick = (e) => { e.preventDefault(); openDashboard(user); };
+    mobileBtn.style.display = 'inline-flex';
   }
 }
 
