@@ -2148,8 +2148,11 @@ footer {
           <button onclick="selectDevices(this,10)" class="sub-action-btn" style="flex:1;padding:10px 0;">10</button>
         </div>
 
-        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Telegram ID или Email клиента</label>
-        <input id="ck-label" type="text" placeholder="Например: 123456789 или client@mail.com" class="modal-input" style="margin-bottom:20px;">
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Telegram ID клиента <span style="color:#ff6b6b;">*</span></label>
+        <input id="ck-tgid" type="text" placeholder="Например: 123456789" class="modal-input" style="margin-bottom:14px;" inputmode="numeric">
+
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Email клиента <span style="color:#ff6b6b;">*</span></label>
+        <input id="ck-email" type="email" placeholder="client@mail.com" class="modal-input" style="margin-bottom:20px;">
 
         <button class="modal-submit" onclick="createKey()" id="ck-btn">Создать ключ →</button>
 
@@ -3231,6 +3234,8 @@ function openCreateKeyModal(tariff) {
   document.getElementById('ck-result').style.display = 'none';
   document.getElementById('ck-btn').disabled = false;
   document.getElementById('ck-btn').textContent = 'Создать ключ →';
+  document.getElementById('ck-tgid').value = '';
+  document.getElementById('ck-email').value = '';
   if (tariff) document.getElementById('ck-tariff').value = tariff;
   _ckDevices = 3;
   document.querySelectorAll('#ck-devices-btns button').forEach(b => b.classList.remove('primary'));
@@ -3245,6 +3250,18 @@ function selectDevices(btn, n) {
 }
 
 async function createKey() {
+  const tgid = document.getElementById('ck-tgid').value.trim();
+  const email = document.getElementById('ck-email').value.trim();
+  
+  if (!tgid || !tgid.match(/^\d+$/)) {
+    alert('Введите корректный Telegram ID (только цифры)');
+    return;
+  }
+  if (!email || !email.includes('@')) {
+    alert('Введите корректный Email клиента');
+    return;
+  }
+
   const btn = document.getElementById('ck-btn');
   btn.disabled = true; btn.textContent = 'Создание...';
   try {
@@ -3255,7 +3272,8 @@ async function createKey() {
       body: JSON.stringify({
         tariff: document.getElementById('ck-tariff').value,
         devices: _ckDevices,
-        note: document.getElementById('ck-label').value || '',
+        tg_id: tgid,
+        client_email: email,
       })
     });
     const data = await r.json();
@@ -3269,9 +3287,7 @@ async function createKey() {
           navigator.clipboard.writeText(url).then(() => {
             document.querySelector('#ck-result .sub-action-btn').textContent = '✓ Скопировано!';
             setTimeout(() => { document.querySelector('#ck-result .sub-action-btn').textContent = '📋 Скопировать ссылку'; }, 2000);
-          }).catch(() => {
-            prompt('Скопируйте ссылку:', url);
-          });
+          }).catch(() => { prompt('Скопируйте ссылку:', url); });
         };
       }
       loadResellerClients();
