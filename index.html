@@ -1993,7 +1993,7 @@ footer {
           <label style="font-size:13px;color:var(--gray);display:block;margin-bottom:8px;">Роль</label>
           <div id="settings-role" style="display:inline-flex;background:rgba(26,111,219,0.2);border:1px solid rgba(61,158,255,0.3);border-radius:6px;padding:4px 14px;font-size:13px;color:var(--blue-bright);">Клиент</div>
         </div>
-        <button class="logout-btn" onclick="closeDashboard()" style="width:100%;padding:14px;">Выйти</button>
+        <button class="logout-btn" onclick="logout()" style="width:100%;padding:14px;">🚪 Выйти из аккаунта</button>
       </div>
     </div>
   </div>
@@ -2346,6 +2346,19 @@ function openDashboard(user) {
 function closeDashboard() {
   document.getElementById('dashboard').style.display = 'none';
   document.body.style.overflow = '';
+}
+
+function logout() {
+  if (!confirm('Выйти из аккаунта?')) return;
+  localStorage.removeItem('sker_token');
+  localStorage.removeItem('sker_user');
+  currentUser = null;
+  // Reset nav button
+  const navBtn = document.querySelector('.nav-btn');
+  if (navBtn) { navBtn.textContent = 'Войти'; navBtn.onclick = () => openAuthModal(); }
+  const mobileBtn = document.getElementById('mobile-login-btn');
+  if (mobileBtn) { mobileBtn.textContent = 'Войти'; mobileBtn.onclick = () => openAuthModal(); }
+  closeDashboard();
 }
 
 function renderDashboard() {
