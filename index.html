@@ -2355,7 +2355,12 @@ function logout() {
   currentUser = null;
   // Reset nav button
   const navBtn = document.querySelector('.nav-btn');
-  if (navBtn) { navBtn.textContent = 'Войти'; navBtn.onclick = () => openAuthModal(); }
+  if (navBtn) {
+    navBtn.textContent = 'Войти';
+    navBtn.onclick = () => openAuthModal();
+    navBtn.style.background = '';
+    navBtn.style.border = '';
+  }
   const mobileBtn = document.getElementById('mobile-login-btn');
   if (mobileBtn) { mobileBtn.textContent = 'Войти'; mobileBtn.onclick = () => openAuthModal(); }
   closeDashboard();
@@ -2641,8 +2646,15 @@ function authSuccess(user) {
 function updateNavForUser(user) {
   const navBtn = document.querySelector('.nav-btn');
   if (navBtn && user) {
-    navBtn.textContent = user.name.split(' ')[0] || 'Кабинет';
-    navBtn.onclick = () => openDashboard(user);
+    navBtn.textContent = '👤 ' + (user.name ? user.name.split(' ')[0] : 'Кабинет');
+    navBtn.onclick = (e) => { e.preventDefault(); openDashboard(user); };
+    navBtn.style.background = 'rgba(61,158,255,0.15)';
+    navBtn.style.border = '1px solid rgba(61,158,255,0.4)';
+  }
+  const mobileBtn = document.getElementById('mobile-login-btn');
+  if (mobileBtn && user) {
+    mobileBtn.textContent = '👤 ' + (user.name ? user.name.split(' ')[0] : 'Кабинет');
+    mobileBtn.onclick = (e) => { e.preventDefault(); openDashboard(user); };
   }
 }
 
