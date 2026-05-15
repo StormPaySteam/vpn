@@ -832,6 +832,7 @@ footer {
 @media (max-width: 900px) {
   nav { padding: 16px 20px; }
   .nav-links { display: none; }
+  #mobile-login-btn { display: inline-flex !important; padding: 8px 18px; font-size: 13px; }
   .features-grid, .pricing-grid { grid-template-columns: 1fr; }
   .stats-bar { grid-template-columns: repeat(2, 1fr); }
   .reseller-section { grid-template-columns: 1fr; gap: 40px; padding: 40px 24px; }
@@ -1294,6 +1295,154 @@ footer {
   100% { transform: scale(1); opacity: 1; }
 }
 
+
+/* === TERMS PAGE === */
+#terms-page {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--blue-dark);
+  z-index: 300;
+  overflow-y: auto;
+}
+
+.terms-nav {
+  background: rgba(10,22,40,0.95);
+  border-bottom: 1px solid rgba(61,158,255,0.15);
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(20px);
+  z-index: 10;
+}
+
+.terms-body {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 40px;
+}
+
+.terms-body h1 {
+  font-size: 36px;
+  margin-bottom: 8px;
+  color: var(--white);
+}
+
+.terms-body h2 {
+  font-size: 20px;
+  margin: 36px 0 12px;
+  color: var(--blue-bright);
+  border-left: 3px solid var(--blue-accent);
+  padding-left: 12px;
+}
+
+.terms-body p {
+  font-size: 15px;
+  color: var(--blue-light);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.terms-body ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 16px;
+}
+
+.terms-body ul li {
+  font-size: 15px;
+  color: var(--blue-light);
+  line-height: 1.7;
+  padding: 4px 0 4px 20px;
+  position: relative;
+}
+
+.terms-body ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--blue-accent);
+}
+
+.terms-meta {
+  font-size: 13px;
+  color: var(--gray);
+  margin-bottom: 48px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.terms-divider {
+  height: 1px;
+  background: rgba(61,158,255,0.12);
+  margin: 40px 0;
+}
+
+.terms-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(10,22,40,0.8);
+  border: 1px solid rgba(61,158,255,0.12);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 48px;
+  width: fit-content;
+}
+
+.terms-tab {
+  padding: 10px 24px;
+  border-radius: 7px;
+  border: none;
+  background: none;
+  color: var(--gray);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.terms-tab.active {
+  background: var(--blue-accent);
+  color: white;
+}
+
+.terms-panel { display: none; }
+.terms-panel.active { display: block; }
+
+/* Checkbox in auth modal */
+.terms-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 16px 0;
+  cursor: pointer;
+}
+
+.terms-check input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--blue-accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.terms-check span {
+  font-size: 13px;
+  color: var(--gray);
+  line-height: 1.5;
+}
+
+.terms-check a {
+  color: var(--blue-bright);
+  text-decoration: none;
+}
+
+.terms-check a:hover { text-decoration: underline; }
+
 </style>
 </head>
 <body>
@@ -1316,6 +1465,8 @@ footer {
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#" class="nav-btn" onclick="currentUser ? openDashboard(currentUser) : openAuthModal()">Войти</a></li>
   </ul>
+  <!-- Mobile login button -->
+  <a href="#" class="nav-btn" id="mobile-login-btn" onclick="currentUser ? openDashboard(currentUser) : openAuthModal()" style="display:none;">Войти</a>
 </nav>
 
 <!-- HERO -->
@@ -1535,6 +1686,9 @@ footer {
       <ul>
         <li><a href="https://t.me/skervpn">Канал @skervpn</a></li>
         <li><a href="https://t.me/internet_r0bot">Бот</a></li>
+        <li><a href="#" onclick="openTerms('user')">Пользовательское соглашение</a></li>
+        <li><a href="#" onclick="openTerms('reseller')">Реселлерам</a></li>
+        <li><a href="#" onclick="openTerms('privacy')">Конфиденциальность</a></li>
       </ul>
     </div>
   </div>
@@ -1544,6 +1698,171 @@ footer {
   </div>
 </footer>
 
+
+
+<!-- TERMS PAGE -->
+<div id="terms-page">
+  <div class="terms-nav">
+    <a href="#" class="nav-logo" style="font-size:18px;" onclick="closeTerms()">
+      <svg viewBox="0 0 100 100" fill="none" style="width:28px;height:28px;">
+        <path d="M50 5L10 25V55C10 75 28 90 50 97C72 90 90 75 90 55V25L50 5Z" fill="rgba(26,111,219,0.4)" stroke="rgba(61,158,255,0.8)" stroke-width="3"/>
+        <path d="M35 52L45 62L65 40" stroke="#5bb4ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      SKER.NET
+    </a>
+    <div style="font-size:14px;color:var(--gray);">Юридические документы</div>
+    <button onclick="closeTerms()" class="logout-btn">← На сайт</button>
+  </div>
+
+  <div class="terms-body">
+    <h1>Правовые документы</h1>
+    <p class="terms-meta">Последнее обновление: 15 мая 2026 · Версия 1.0</p>
+
+    <div class="terms-tabs">
+      <button class="terms-tab active" onclick="switchTermsTab('user', this)">📄 Пользователям</button>
+      <button class="terms-tab" onclick="switchTermsTab('reseller', this)">💼 Реселлерам</button>
+      <button class="terms-tab" onclick="switchTermsTab('privacy', this)">🔒 Конфиденциальность</button>
+    </div>
+
+    <!-- USER AGREEMENT -->
+    <div class="terms-panel active" id="terms-user">
+      <h1>Пользовательское соглашение</h1>
+      <p class="terms-meta">Публичная оферта · Редакция от 15.05.2026</p>
+
+      <h2>1. Общие положения</h2>
+      <p>Настоящее Пользовательское соглашение регулирует отношения между физическим лицом (Пользователь) и лицом, предоставляющим услуги под торговым наименованием SKER.NET (Сервис).</p>
+      <p>Сервис предоставляет доступ к виртуальной частной сети (VPN) с использованием протокола VLESS Reality через сайт https://skernet.ru и Telegram-бот @internet_r0bot.</p>
+      <p><strong>Акцептом оферты</strong> считается любое из действий: регистрация на Сайте, оплата тарифа, использование ссылки подписки.</p>
+
+      <h2>2. Предмет соглашения</h2>
+      <p>Сервис предоставляет Пользователю доступ к VPN на условиях выбранного тарифного плана. Технические характеристики (серверы, скорость, лимит трафика) определяются тарифом.</p>
+
+      <h2>3. Права и обязанности пользователя</h2>
+      <p>Пользователь вправе использовать VPN в личных, некоммерческих целях и получать техническую поддержку через официальные каналы.</p>
+      <p>Пользователь обязуется:</p>
+      <ul>
+        <li>использовать Сервис только в законных целях;</li>
+        <li>не передавать реквизиты доступа третьим лицам;</li>
+        <li>не осуществлять атаки на инфраструктуру Сервиса;</li>
+        <li>не использовать Сервис для спама, DDoS-атак или распространения вредоносного ПО.</li>
+      </ul>
+
+      <h2>4. Запрещённые виды использования</h2>
+      <p>Строго запрещено использование Сервиса для:</p>
+      <ul>
+        <li>распространения незаконных материалов;</li>
+        <li>совершения киберпреступлений (взлом, фишинг, мошенничество);</li>
+        <li>нарушения авторских и смежных прав;</li>
+        <li>любой противоправной деятельности.</li>
+      </ul>
+      <p>При нарушении — немедленная блокировка без возврата средств.</p>
+
+      <h2>5. Оплата и тарифы</h2>
+      <p>Оплата производится через UPay (СБП, крипта, Telegram Stars). Возврат возможен в течение 24 часов при нулевом использовании трафика. После начала использования возврат не производится.</p>
+
+      <h2>6. Конфиденциальность</h2>
+      <p>Сервис собирает только: email (при регистрации через email), Telegram ID, данные об объёме трафика. <strong>Логи посещаемых сайтов не ведутся.</strong> Данные не передаются третьим лицам, кроме случаев, предусмотренных законодательством РФ.</p>
+
+      <h2>7. Ограничение ответственности</h2>
+      <p>Сервис предоставляется «как есть». Совокупная ответственность Сервиса ограничена суммой последнего платежа Пользователя.</p>
+
+      <h2>8. Применимое право</h2>
+      <p>Соглашение регулируется законодательством Российской Федерации. Споры разрешаются путём переговоров; срок рассмотрения претензии — 30 дней.</p>
+
+      <div class="terms-divider"></div>
+      <p style="font-size:13px;color:var(--gray);font-style:italic;">По вопросам: Telegram @skervpn · Бот @internet_r0bot</p>
+    </div>
+
+    <!-- RESELLER AGREEMENT -->
+    <div class="terms-panel" id="terms-reseller">
+      <h1>Реселлерское соглашение</h1>
+      <p class="terms-meta">Публичная оферта для реселлеров · Редакция от 15.05.2026 · Конфиденциально</p>
+
+      <h2>1. Термины</h2>
+      <p><strong>Реселлер</strong> — лицо, заключившее соглашение с Сервисом и осуществляющее перепродажу VPN-доступа конечным пользователям от своего имени и за свой счёт.</p>
+
+      <h2>2. Предмет соглашения</h2>
+      <p>Сервис предоставляет Реселлеру право приобретать Ключи доступа по оптовым ценам и перепродавать их по самостоятельно установленным ценам с использованием брендированного Telegram-бота.</p>
+
+      <h2>3. Оптовые цены</h2>
+      <ul>
+        <li>1 месяц · 1000 ГБ · 3 устройства — <strong>50 руб</strong></li>
+        <li>3 месяца · 1000 ГБ/мес · 3 устройства — <strong>150 руб</strong></li>
+        <li>6 месяцев · 1000 ГБ/мес · 3 устройства — <strong>300 руб</strong></li>
+        <li>12 месяцев · 1000 ГБ/мес · 3 устройства — <strong>600 руб</strong></li>
+        <li>Дополнительное устройство — <strong>50 руб</strong></li>
+      </ul>
+      <p>Сервис вправе изменить цены с уведомлением за 7 дней. Ранее выданные ключи не пересчитываются.</p>
+
+      <h2>4. Обязанности реселлера</h2>
+      <ul>
+        <li>Нести ответственность перед конечными пользователями самостоятельно;</li>
+        <li>Не раскрывать условия и цены Сервиса конечным пользователям;</li>
+        <li>Не перепродавать статус Реселлера третьим лицам;</li>
+        <li>Не использовать ключи для публичных прокси или массовых сервисов;</li>
+        <li>Не осуществлять продажи, наносящие репутационный ущерб Сервису.</li>
+      </ul>
+
+      <h2>5. Санкции за нарушения</h2>
+      <p>При нарушении условий Сервис вправе: заблокировать кабинет, аннулировать ключи без возврата средств, расторгнуть соглашение, потребовать возмещения убытков.</p>
+      <p>Реселлер несёт ответственность за действия своих клиентов в части нарушения Пользовательского соглашения.</p>
+
+      <h2>6. Конфиденциальность</h2>
+      <p>Оптовые цены и условия соглашения являются конфиденциальной информацией. Обязательство конфиденциальности действует в течение срока соглашения и 2 лет после расторжения.</p>
+
+      <h2>7. Расторжение</h2>
+      <p>Каждая сторона вправе расторгнуть соглашение с уведомлением за 7 дней. При расторжении по вине Реселлера возврат средств не производится.</p>
+
+      <div class="terms-divider"></div>
+      <p style="font-size:13px;color:var(--gray);font-style:italic;">Акцептом является подача заявки на статус Реселлера или первая оплата ключей.</p>
+    </div>
+
+    <!-- PRIVACY POLICY -->
+    <div class="terms-panel" id="terms-privacy">
+      <h1>Политика конфиденциальности</h1>
+      <p class="terms-meta">В соответствии с ФЗ-152 «О персональных данных» · Редакция от 15.05.2026</p>
+
+      <h2>Какие данные мы собираем</h2>
+      <ul>
+        <li>Email-адрес — при регистрации через email;</li>
+        <li>Telegram ID и имя — при регистрации через Telegram-бот;</li>
+        <li>Объём использованного трафика — для контроля лимита;</li>
+        <li>Дата создания и истечения подписки.</li>
+      </ul>
+
+      <h2>Чего мы НЕ собираем</h2>
+      <ul>
+        <li>История посещённых сайтов и DNS-запросов;</li>
+        <li>Содержание передаваемых данных;</li>
+        <li>IP-адреса конечных пользователей в логах;</li>
+        <li>Данные о местоположении.</li>
+      </ul>
+
+      <h2>Как используются данные</h2>
+      <p>Данные используются исключительно для: предоставления услуги VPN, технической поддержки, направления уведомлений об истечении подписки, предотвращения мошенничества.</p>
+
+      <h2>Передача данных третьим лицам</h2>
+      <p>Данные не продаются и не передаются третьим лицам, кроме случаев, прямо предусмотренных законодательством Российской Федерации (по запросу уполномоченных органов).</p>
+
+      <h2>Хранение данных</h2>
+      <p>Данные хранятся на защищённых серверах. После расторжения соглашения данные удаляются в течение 30 дней по запросу пользователя.</p>
+
+      <h2>Права пользователя</h2>
+      <ul>
+        <li>Право на доступ к своим данным;</li>
+        <li>Право на исправление неточных данных;</li>
+        <li>Право на удаление данных (обратитесь в поддержку);</li>
+        <li>Право на отзыв согласия на обработку.</li>
+      </ul>
+
+      <h2>Согласие на обработку</h2>
+      <p>Используя Сервис, Пользователь даёт согласие на обработку персональных данных в объёме, необходимом для исполнения договора, в соответствии с ФЗ-152.</p>
+
+      <div class="terms-divider"></div>
+      <p style="font-size:13px;color:var(--gray);font-style:italic;">По вопросам обработки данных: Telegram @skervpn</p>
+    </div>
+  </div>
+</div>
 
 <!-- DASHBOARD -->
 <div id="dashboard">
@@ -1719,6 +2038,10 @@ footer {
       <p style="color:var(--gray);font-size:14px;margin-bottom:24px;">Введите почту — мы пришлём код подтверждения</p>
       <input class="modal-input" type="email" id="email-input" placeholder="your@email.com">
       <input class="modal-input" type="text" id="name-input" placeholder="Ваше имя (для новых)">
+      <label class="terms-check">
+        <input type="checkbox" id="terms-check-email" required>
+        <span>Я принимаю <a href="#" onclick="openTerms('user')">Пользовательское соглашение</a> и даю согласие на обработку персональных данных согласно <a href="#" onclick="openTerms('privacy')">Политике конфиденциальности</a></span>
+      </label>
       <button class="modal-submit" onclick="sendEmailCode()">Получить код →</button>
       <button onclick="goToStep(1)" style="background:none;border:none;color:var(--gray);font-size:13px;cursor:pointer;margin-top:12px;font-family:'Exo 2',sans-serif;">← Назад</button>
     </div>
@@ -1736,6 +2059,10 @@ footer {
         </a>
       </div>
       <input class="modal-input" type="text" id="tg-code-input" placeholder="Введите код из бота (6 цифр)" maxlength="6" style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:20px;letter-spacing:8px;">
+      <label class="terms-check">
+        <input type="checkbox" id="terms-check-tg" required>
+        <span>Я принимаю <a href="#" onclick="openTerms('user')">Пользовательское соглашение</a> и <a href="#" onclick="openTerms('privacy')">Политику конфиденциальности</a></span>
+      </label>
       <button class="modal-submit" onclick="verifyTgCode()">Подтвердить →</button>
       <button onclick="goToStep(1)" style="background:none;border:none;color:var(--gray);font-size:13px;cursor:pointer;margin-top:12px;font-family:'Exo 2',sans-serif;">← Назад</button>
     </div>
@@ -2187,11 +2514,21 @@ function selectAuthMethod(method) {
 
 async function sendEmailCode() {
   const email = document.getElementById('email-input').value.trim();
+  const name = document.getElementById('name-input').value.trim();
   if (!email || !email.includes('@')) { alert('Введите корректный email'); return; }
   document.getElementById('email-display').textContent = email;
 
-  // Demo: skip API call
-  // In production: await fetch(API_BASE + '/auth/email/send', {method:'POST', body: JSON.stringify({email})})
+  try {
+    const resp = await fetch(API_BASE + '/auth/email/send', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email, name: name || email.split('@')[0]})
+    });
+    if (!resp.ok) { alert('Ошибка отправки кода'); return; }
+  } catch(e) {
+    alert('Ошибка подключения к серверу.');
+    return;
+  }
 
   goToStep(3);
   document.getElementById('auth-step-3').style.display = 'block';
@@ -2217,21 +2554,51 @@ async function verifyEmailCode() {
   const digits = [...document.querySelectorAll('.code-digit')].map(i => i.value).join('');
   if (digits.length < 6) { alert('Введите все 6 цифр'); return; }
 
-  // Demo: any code works
-  // In production: verify with API
   const email = document.getElementById('email-input').value.trim();
-  const name = document.getElementById('name-input').value.trim() || email.split('@')[0];
-
-  authSuccess({ id: Date.now(), name, username: email, email, isReseller: false, subscriptions: [] });
+  try {
+    const resp = await fetch(API_BASE + '/auth/email/verify', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email, code: digits})
+    });
+    const data = await resp.json();
+    if (!resp.ok) { alert(data.detail || 'Неверный код'); return; }
+    localStorage.setItem('sker_token', data.token);
+    const user = {...data.user, subscriptions: data.subscriptions || []};
+    authSuccess(user);
+  } catch(e) {
+    alert('Ошибка подключения к серверу.');
+    console.error(e);
+  }
 }
 
 async function verifyTgCode() {
   const code = document.getElementById('tg-code-input').value.trim();
   if (code.length < 6) { alert('Введите 6-значный код из бота'); return; }
 
-  // Demo: any code works
-  // In production: verify with API using Telegram bot token
-  authSuccess({ id: 8774092971, name: 'Пользователь', username: '@user', isReseller: false, subscriptions: [] });
+  try {
+    const resp = await fetch(API_BASE + '/auth/telegram/verify', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({code})
+    });
+    const data = await resp.json();
+    if (!resp.ok) { alert(data.detail || 'Неверный код'); return; }
+    
+    // Save token
+    localStorage.setItem('sker_token', data.token);
+    
+    // Build user with subscriptions
+    const user = {
+      ...data.user,
+      subscriptions: data.subscriptions || [],
+      reseller_data: data.reseller_data || null,
+    };
+    authSuccess(user);
+  } catch(e) {
+    alert('Ошибка подключения к серверу. Попробуйте позже.');
+    console.error(e);
+  }
 }
 
 function authSuccess(user) {
@@ -2319,23 +2686,27 @@ async function payWithUpay() {
   const user = currentUser;
   const description = `SKER.NET · ${tariff} · ${devices} уст.`;
 
-  // In production: create order via your backend API
-  // const resp = await fetch(API_BASE + '/payments/create', {
-  //   method: 'POST',
-  //   headers: {'Content-Type':'application/json'},
-  //   body: JSON.stringify({ tariff, price, devices, userId: user.id, email: user.email })
-  // });
-  // const { orderId, paymentUrl } = await resp.json();
+  const token = localStorage.getItem('sker_token');
+  // Map tariff period to key
+  const tariffMap = {'1 месяц':'1m','3 месяца':'3m','6 месяцев':'6m'};
+  const tariffKey = tariffMap[checkoutData.tariff] || '1m';
 
-  // Demo: simulate
-  const demoOrderId = 'demo-' + Math.random().toString(36).slice(2,10);
-  const demoPayUrl = `https://upay.su/pay/demo`; // real: paymentUrl
+  try {
+    const resp = await fetch(API_BASE + '/payments/create', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({tariff: tariffKey, devices, token})
+    });
+    const data = await resp.json();
+    if (!resp.ok || !data.ok) { alert(data.detail || 'Ошибка создания заказа'); return; }
 
-  currentOrderId = demoOrderId;
-  document.getElementById('order-id-display').textContent = demoOrderId;
-
-  // Open payment page
-  window.open(demoPayUrl, '_blank');
+    currentOrderId = data.order_id;
+    document.getElementById('order-id-display').textContent = data.order_id;
+    window.open(data.payment_url, '_blank');
+  } catch(e) {
+    alert('Ошибка подключения к серверу');
+    return;
+  }
 
   // Show waiting screen
   document.getElementById('checkout-step-1').style.display = 'none';
@@ -2348,15 +2719,19 @@ async function payWithUpay() {
 async function checkPaymentStatus() {
   if (!currentOrderId) return;
 
-  // In production: check via your backend
-  // const resp = await fetch(API_BASE + '/payments/check/' + currentOrderId);
-  // const { status, subscriptionUrl } = await resp.json();
-
-  // Demo: simulate success on manual click
-  const demoSubUrl = 'https://sub.skernet.ru:8443/r1wZbPehJ0G1zFm8';
-
-  if (paymentCheckInterval) clearInterval(paymentCheckInterval);
-  showCheckoutSuccess(demoSubUrl);
+  const token = localStorage.getItem('sker_token');
+  try {
+    const resp = await fetch(API_BASE + '/payments/check/' + currentOrderId, {
+      method: 'POST',
+      headers: {'Authorization': 'Bearer ' + token}
+    });
+    const data = await resp.json();
+    if (data.status === 'paid' && data.sub_url) {
+      if (paymentCheckInterval) clearInterval(paymentCheckInterval);
+      showCheckoutSuccess(data.sub_url);
+    }
+    // else still pending - keep checking
+  } catch(e) { console.error('Payment check error:', e); }
 }
 
 function showCheckoutSuccess(subUrl) {
@@ -2383,8 +2758,29 @@ function showCheckoutSuccess(subUrl) {
 }
 
 // === RESTORE SESSION ===
-function restoreSession() {
+async function restoreSession() {
+  const token = localStorage.getItem('sker_token');
   const saved = localStorage.getItem('sker_user');
+  if (token) {
+    try {
+      const resp = await fetch(API_BASE + '/auth/me', {
+        headers: {'Authorization': 'Bearer ' + token}
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        // Load subscriptions
+        const subsResp = await fetch(API_BASE + '/user/subscriptions', {
+          headers: {'Authorization': 'Bearer ' + token}
+        });
+        let subs = [];
+        if (subsResp.ok) { const sd = await subsResp.json(); subs = sd.subscriptions || []; }
+        currentUser = {...data.user, subscriptions: subs};
+        localStorage.setItem('sker_user', JSON.stringify(currentUser));
+        updateNavForUser(currentUser);
+        return;
+      }
+    } catch(e) { console.error('Session restore error:', e); }
+  }
   if (saved) {
     try {
       const user = JSON.parse(saved);
@@ -2392,6 +2788,56 @@ function restoreSession() {
       updateNavForUser(user);
     } catch(e) {}
   }
+}
+
+
+// === TERMS ===
+function openTerms(tab) {
+  document.getElementById('terms-page').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  switchTermsTab(tab, null);
+}
+
+function closeTerms() {
+  document.getElementById('terms-page').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function switchTermsTab(tab, btn) {
+  document.querySelectorAll('.terms-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.terms-panel').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    document.querySelectorAll('.terms-tab').forEach(t => {
+      if (t.getAttribute('onclick') && t.getAttribute('onclick').includes("'" + tab + "'")) {
+        t.classList.add('active');
+      }
+    });
+  }
+  const panel = document.getElementById('terms-' + tab);
+  if (panel) panel.classList.add('active');
+  document.getElementById('terms-page').scrollTop = 0;
+}
+
+// Validate terms checkbox before proceeding
+const _origSendEmailCode = sendEmailCode;
+async function sendEmailCode() {
+  const cb = document.getElementById('terms-check-email');
+  if (cb && !cb.checked) {
+    alert('Необходимо принять Пользовательское соглашение');
+    return;
+  }
+  await _origSendEmailCode();
+}
+
+const _origVerifyTgCode = verifyTgCode;
+async function verifyTgCode() {
+  const cb = document.getElementById('terms-check-tg');
+  if (cb && !cb.checked) {
+    alert('Необходимо принять Пользовательское соглашение');
+    return;
+  }
+  await _origVerifyTgCode();
 }
 
 // === INIT ===
