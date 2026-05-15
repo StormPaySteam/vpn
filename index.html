@@ -1992,50 +1992,110 @@ footer {
 
     <!-- RESELLER PANEL -->
     <div class="dash-panel" id="panel-reseller">
-      <div class="reseller-stats">
-        <div class="dash-card">
-          <div class="dash-card-label">Активных клиентов</div>
+
+      <!-- Бренд-карточка -->
+      <div class="dash-card" style="margin-bottom:24px;background:linear-gradient(135deg,rgba(26,111,219,0.15),rgba(61,158,255,0.05));border:1px solid rgba(61,158,255,0.3);position:relative;overflow:hidden;">
+        <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(61,158,255,0.1),transparent);border-radius:50%;"></div>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <div style="width:56px;height:56px;background:rgba(26,111,219,0.3);border:1px solid rgba(61,158,255,0.4);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue-bright)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">Ваш бренд</div>
+            <div style="font-size:22px;font-weight:800;color:var(--white);" id="rc-brand">—</div>
+            <div style="font-size:13px;color:var(--blue-light);margin-top:2px;" id="rc-bot-link">Загрузка...</div>
+          </div>
+          <a href="https://t.me/internet_r0bot" target="_blank" class="sub-action-btn primary" style="flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px;vertical-align:-2px;"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+            Открыть бот
+          </a>
+        </div>
+      </div>
+
+      <!-- Статистика -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px;" id="reseller-stats-grid">
+        <div class="dash-card" style="text-align:center;">
+          <div style="width:40px;height:40px;background:rgba(26,111,219,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--blue-bright);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
           <div class="dash-card-val" id="rc-clients">0</div>
+          <div class="dash-card-label">Клиентов</div>
         </div>
-        <div class="dash-card">
-          <div class="dash-card-label">Создано ключей</div>
+        <div class="dash-card" style="text-align:center;">
+          <div style="width:40px;height:40px;background:rgba(26,111,219,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--blue-bright);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+          </div>
           <div class="dash-card-val" id="rc-keys">0</div>
+          <div class="dash-card-label">Создано ключей</div>
         </div>
-        <div class="dash-card">
+        <div class="dash-card" style="text-align:center;">
+          <div style="width:40px;height:40px;background:rgba(26,219,112,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:#26db70;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div class="dash-card-val" id="rc-revenue" style="color:#26db70;">0 ₽</div>
           <div class="dash-card-label">Доход за месяц</div>
-          <div class="dash-card-val" id="rc-revenue">0 ₽</div>
         </div>
-        <div class="dash-card">
+        <div class="dash-card" style="text-align:center;">
+          <div style="width:40px;height:40px;background:rgba(255,193,7,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:#ffc107;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <div class="dash-card-val" id="rc-balance" style="color:#ffc107;">0 ₽</div>
           <div class="dash-card-label">Баланс</div>
-          <div class="dash-card-val" id="rc-balance">0 ₽</div>
         </div>
       </div>
 
-      <div class="dash-section-title">Клиенты</div>
-      <div class="dash-card" style="padding:0;overflow:hidden;">
-        <table class="clients-table">
-          <thead>
-            <tr>
-              <th>Telegram ID</th>
-              <th>Тариф</th>
-              <th>Трафик</th>
-              <th>Истекает</th>
-              <th>Статус</th>
-              <th>Действия</th>
-            </tr>
-          </thead>
-          <tbody id="clients-tbody">
-            <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--gray);">Нет клиентов</td></tr>
-          </tbody>
-        </table>
+      <!-- Оптовые тарифы -->
+      <div class="dash-section-title">Оптовые цены</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px;">
+        <div class="dash-card" style="padding:16px;text-align:center;">
+          <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">1 месяц</div>
+          <div style="font-size:24px;font-weight:800;color:var(--blue-bright);">50 ₽</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:4px;">розница от 130 ₽</div>
+        </div>
+        <div class="dash-card" style="padding:16px;text-align:center;">
+          <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">3 месяца</div>
+          <div style="font-size:24px;font-weight:800;color:var(--blue-bright);">150 ₽</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:4px;">розница от 320 ₽</div>
+        </div>
+        <div class="dash-card" style="padding:16px;text-align:center;">
+          <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">6 месяцев</div>
+          <div style="font-size:24px;font-weight:800;color:var(--blue-bright);">300 ₽</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:4px;">розница от 620 ₽</div>
+        </div>
+        <div class="dash-card" style="padding:16px;text-align:center;">
+          <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">12 месяцев</div>
+          <div style="font-size:24px;font-weight:800;color:var(--blue-bright);">600 ₽</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:4px;">+50 ₽/доп. устройство</div>
+        </div>
       </div>
 
-      <div class="dash-section-title" style="margin-top:32px;">Управление ботом</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <a href="https://t.me/internet_r0bot" target="_blank" class="sub-action-btn primary">🤖 Открыть бот</a>
-        <button class="sub-action-btn" onclick="alert('Настройки бота доступны в Telegram боте')">⚙️ Настройки бота</button>
-        <button class="sub-action-btn" onclick="alert('Промокоды управляются через команду /promo в боте')">🎟 Промокоды</button>
-        <button class="sub-action-btn" onclick="alert('Рассылка через команду /broadcast в боте')">📨 Рассылка</button>
+      <!-- Быстрые действия -->
+      <div class="dash-section-title">Управление</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+        <a href="https://t.me/internet_r0bot" target="_blank" class="dash-card" style="text-decoration:none;display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;transition:background 0.2s;">
+          <div style="width:36px;height:36px;background:rgba(26,111,219,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue-bright);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
+          </div>
+          <div><div style="font-size:13px;font-weight:600;color:var(--white);">Telegram бот</div><div style="font-size:11px;color:var(--gray);">Управление ключами</div></div>
+        </a>
+        <div class="dash-card" style="display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;transition:background 0.2s;" onclick="alert('Используйте команду /promo в боте')">
+          <div style="width:36px;height:36px;background:rgba(26,111,219,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue-bright);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+          </div>
+          <div><div style="font-size:13px;font-weight:600;color:var(--white);">Промокоды</div><div style="font-size:11px;color:var(--gray);">/promo в боте</div></div>
+        </div>
+        <div class="dash-card" style="display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;transition:background 0.2s;" onclick="alert('Используйте команду /broadcast в боте')">
+          <div style="width:36px;height:36px;background:rgba(26,111,219,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue-bright);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
+          <div><div style="font-size:13px;font-weight:600;color:var(--white);">Рассылка</div><div style="font-size:11px;color:var(--gray);">/broadcast в боте</div></div>
+        </div>
+        <div class="dash-card" style="display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;transition:background 0.2s;" onclick="alert('Статистика доступна в боте через /stats')">
+          <div style="width:36px;height:36px;background:rgba(26,111,219,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue-bright);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div><div style="font-size:13px;font-weight:600;color:var(--white);">Статистика</div><div style="font-size:11px;color:var(--gray);">/stats в боте</div></div>
+        </div>
       </div>
     </div>
 
@@ -2537,23 +2597,16 @@ function renderDashboard() {
   }
 
   // Reseller
-  if (u.isReseller && u.reseller) {
-    const r = u.reseller;
-    document.getElementById('rc-clients').textContent = r.clients;
-    document.getElementById('rc-keys').textContent = r.keys;
-    document.getElementById('rc-revenue').textContent = r.revenue.toLocaleString('ru') + ' ₽';
-    document.getElementById('rc-balance').textContent = r.balance.toLocaleString('ru') + ' ₽';
-
-    const tbody = document.getElementById('clients-tbody');
-    tbody.innerHTML = r.clients_list.map(c => `
-      <tr>
-        <td>${c.tg}</td>
-        <td>${c.tariff}</td>
-        <td>${c.traffic}</td>
-        <td>${c.expires}</td>
-        <td><span class="status-dot ${c.status}"></span>${c.status === 'active' ? 'Активна' : 'Истекла'}</td>
-        <td><button class="sub-action-btn" style="padding:6px 14px;font-size:12px;" onclick="alert('Управление клиентом через Telegram бот')">Управление</button></td>
-      </tr>`).join('');
+  if (u.isReseller) {
+    document.getElementById('tab-reseller').style.display = '';
+    const rd = u.resellerData || u.reseller_data || {};
+    const brand = rd.brand || rd.name || 'Ваш бренд';
+    document.getElementById('rc-brand').textContent = brand;
+    document.getElementById('rc-bot-link').textContent = rd.bot_username ? `@${rd.bot_username}` : 'Бот подключён через @internet_r0bot';
+    document.getElementById('rc-keys').textContent = rd.created_keys || 0;
+    document.getElementById('rc-clients').textContent = rd.clients_count || rd.created_keys || 0;
+    document.getElementById('rc-revenue').textContent = (rd.revenue || 0).toLocaleString('ru') + ' ₽';
+    document.getElementById('rc-balance').textContent = (rd.balance || 0).toLocaleString('ru') + ' ₽';
   }
 }
 
