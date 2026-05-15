@@ -1219,6 +1219,21 @@ footer {
 
 .logout-btn:hover { background: rgba(255,100,100,0.2); }
 
+.reseller-nav {
+  background: rgba(61,158,255,0.08);
+  border: 1px solid rgba(61,158,255,0.2);
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: var(--gray);
+  font-size: 13px;
+  font-family: 'Exo 2', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.reseller-nav:hover { border-color: rgba(61,158,255,0.4); color: var(--white); }
+.reseller-nav.active { background: rgba(26,111,219,0.25); border-color: rgba(61,158,255,0.5); color: var(--white); }
+
 
 /* === AUTH & CHECKOUT === */
 .auth-steps { display: flex; gap: 8px; margin-bottom: 28px; justify-content: center; }
@@ -1995,107 +2010,210 @@ footer {
 
       <!-- Бренд-карточка -->
       <div class="dash-card" style="margin-bottom:24px;background:linear-gradient(135deg,rgba(26,111,219,0.15),rgba(61,158,255,0.05));border:1px solid rgba(61,158,255,0.3);position:relative;overflow:hidden;">
-        <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(61,158,255,0.1),transparent);border-radius:50%;"></div>
+        <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(61,158,255,0.1),transparent);border-radius:50%;pointer-events:none;"></div>
         <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-          <div style="width:56px;height:56px;background:rgba(26,111,219,0.3);border:1px solid rgba(61,158,255,0.4);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--blue-bright)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <div style="width:56px;height:56px;background:rgba(26,111,219,0.3);border:1px solid rgba(61,158,255,0.4);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue-bright);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           </div>
           <div style="flex:1;min-width:0;">
             <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">Ваш бренд</div>
             <div style="font-size:22px;font-weight:800;color:var(--white);" id="rc-brand">—</div>
             <div style="font-size:13px;color:var(--blue-light);margin-top:2px;" id="rc-bot-link">Загрузка...</div>
           </div>
-          <a href="https://t.me/internet_r0bot" target="_blank" class="sub-action-btn primary" style="flex-shrink:0;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:6px;vertical-align:-2px;"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
-            Открыть бот
-          </a>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="sub-action-btn primary" onclick="openCreateKeyModal()" style="display:flex;align-items:center;gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Новый ключ
+            </button>
+            <button class="sub-action-btn" onclick="openSubpageModal()" style="display:flex;align-items:center;gap:6px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Sub Page
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Статистика -->
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px;" id="reseller-stats-grid">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px;">
         <div class="dash-card" style="text-align:center;">
           <div style="width:40px;height:40px;background:rgba(26,111,219,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--blue-bright);">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           </div>
-          <div class="dash-card-val" id="rc-clients">0</div>
+          <div class="dash-card-val" id="rc-clients">—</div>
           <div class="dash-card-label">Клиентов</div>
         </div>
         <div class="dash-card" style="text-align:center;">
           <div style="width:40px;height:40px;background:rgba(26,111,219,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--blue-bright);">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
           </div>
-          <div class="dash-card-val" id="rc-keys">0</div>
+          <div class="dash-card-val" id="rc-keys">—</div>
           <div class="dash-card-label">Создано ключей</div>
         </div>
         <div class="dash-card" style="text-align:center;">
-          <div style="width:40px;height:40px;background:rgba(26,219,112,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:#26db70;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <div style="width:40px;height:40px;background:rgba(38,219,112,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:#26db70;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           </div>
-          <div class="dash-card-val" id="rc-revenue" style="color:#26db70;">0 ₽</div>
-          <div class="dash-card-label">Доход за месяц</div>
+          <div class="dash-card-val" id="rc-active" style="color:#26db70;">—</div>
+          <div class="dash-card-label">Активных</div>
         </div>
         <div class="dash-card" style="text-align:center;">
-          <div style="width:40px;height:40px;background:rgba(255,193,7,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:#ffc107;">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <div style="width:40px;height:40px;background:rgba(255,107,107,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:#ff6b6b;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           </div>
-          <div class="dash-card-val" id="rc-balance" style="color:#ffc107;">0 ₽</div>
-          <div class="dash-card-label">Баланс</div>
+          <div class="dash-card-val" id="rc-expired" style="color:#ff6b6b;">—</div>
+          <div class="dash-card-label">Истекших</div>
+        </div>
+      </div>
+
+      <!-- Клиенты -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div class="dash-section-title" style="margin-bottom:0;">Клиенты</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input id="client-search" type="text" placeholder="Поиск..." style="background:rgba(61,158,255,0.08);border:1px solid rgba(61,158,255,0.2);border-radius:8px;padding:6px 12px;color:var(--white);font-size:13px;font-family:'Exo 2',sans-serif;width:150px;" oninput="filterClients(this.value)">
+          <button class="sub-action-btn" onclick="loadResellerClients()" style="padding:6px 12px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="clients-list" style="display:flex;flex-direction:column;gap:10px;">
+        <div style="text-align:center;padding:40px;color:var(--gray);">
+          <div style="margin-bottom:12px;opacity:0.5;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          </div>
+          <div>Нажмите обновить для загрузки клиентов</div>
         </div>
       </div>
 
       <!-- Оптовые тарифы -->
-      <div class="dash-section-title">Оптовые цены</div>
+      <div class="dash-section-title" style="margin-top:24px;">Оптовые цены</div>
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px;">
-        <div class="dash-card" style="padding:16px;text-align:center;">
+        <div class="dash-card" style="padding:16px;text-align:center;cursor:pointer;" onclick="openCreateKeyModal('1m')">
           <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">1 месяц</div>
           <div style="font-size:24px;font-weight:800;color:var(--blue-bright);">50 ₽</div>
           <div style="font-size:11px;color:var(--gray);margin-top:4px;">розница от 130 ₽</div>
         </div>
-        <div class="dash-card" style="padding:16px;text-align:center;">
+        <div class="dash-card" style="padding:16px;text-align:center;cursor:pointer;" onclick="openCreateKeyModal('3m')">
           <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">3 месяца</div>
           <div style="font-size:24px;font-weight:800;color:var(--blue-bright);">150 ₽</div>
           <div style="font-size:11px;color:var(--gray);margin-top:4px;">розница от 320 ₽</div>
         </div>
-        <div class="dash-card" style="padding:16px;text-align:center;">
+        <div class="dash-card" style="padding:16px;text-align:center;cursor:pointer;" onclick="openCreateKeyModal('6m')">
           <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">6 месяцев</div>
           <div style="font-size:24px;font-weight:800;color:var(--blue-bright);">300 ₽</div>
           <div style="font-size:11px;color:var(--gray);margin-top:4px;">розница от 620 ₽</div>
         </div>
-        <div class="dash-card" style="padding:16px;text-align:center;">
+        <div class="dash-card" style="padding:16px;text-align:center;cursor:pointer;" onclick="openCreateKeyModal('12m')">
           <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">12 месяцев</div>
           <div style="font-size:24px;font-weight:800;color:var(--blue-bright);">600 ₽</div>
           <div style="font-size:11px;color:var(--gray);margin-top:4px;">+50 ₽/доп. устройство</div>
         </div>
       </div>
 
-      <!-- Быстрые действия -->
-      <div class="dash-section-title">Управление</div>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
-        <a href="https://t.me/internet_r0bot" target="_blank" class="dash-card" style="text-decoration:none;display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;transition:background 0.2s;">
-          <div style="width:36px;height:36px;background:rgba(26,111,219,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue-bright);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/></svg>
-          </div>
-          <div><div style="font-size:13px;font-weight:600;color:var(--white);">Telegram бот</div><div style="font-size:11px;color:var(--gray);">Управление ключами</div></div>
-        </a>
-        <div class="dash-card" style="display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;transition:background 0.2s;" onclick="alert('Используйте команду /promo в боте')">
-          <div style="width:36px;height:36px;background:rgba(26,111,219,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue-bright);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-          </div>
-          <div><div style="font-size:13px;font-weight:600;color:var(--white);">Промокоды</div><div style="font-size:11px;color:var(--gray);">/promo в боте</div></div>
+    </div>
+
+    <!-- МОДАЛ: СОЗДАТЬ КЛЮЧ -->
+    <div class="modal-overlay" id="create-key-modal" onclick="if(event.target===this)closeCreateKeyModal()" style="display:none;">
+      <div class="modal" style="max-width:440px;">
+        <button class="modal-close" onclick="closeCreateKeyModal()">✕</button>
+        <div style="width:48px;height:48px;background:rgba(26,111,219,0.2);border:1px solid rgba(61,158,255,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--blue-bright);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
         </div>
-        <div class="dash-card" style="display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;transition:background 0.2s;" onclick="alert('Используйте команду /broadcast в боте')">
-          <div style="width:36px;height:36px;background:rgba(26,111,219,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue-bright);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </div>
-          <div><div style="font-size:13px;font-weight:600;color:var(--white);">Рассылка</div><div style="font-size:11px;color:var(--gray);">/broadcast в боте</div></div>
+        <h3 style="text-align:center;margin-bottom:6px;">Создать ключ</h3>
+        <p style="text-align:center;color:var(--gray);font-size:13px;margin-bottom:24px;">Новый VPN ключ для клиента</p>
+
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Тариф</label>
+        <select id="ck-tariff" style="width:100%;background:rgba(61,158,255,0.08);border:1px solid rgba(61,158,255,0.2);border-radius:8px;padding:10px 14px;color:var(--white);font-size:14px;font-family:'Exo 2',sans-serif;margin-bottom:14px;appearance:none;">
+          <option value="1m">1 месяц — 50 ₽</option>
+          <option value="3m">3 месяца — 150 ₽</option>
+          <option value="6m">6 месяцев — 300 ₽</option>
+          <option value="12m">12 месяцев — 600 ₽</option>
+        </select>
+
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Устройств</label>
+        <div style="display:flex;gap:8px;margin-bottom:14px;" id="ck-devices-btns">
+          <button onclick="selectDevices(this,1)" class="sub-action-btn" style="flex:1;padding:10px 0;">1</button>
+          <button onclick="selectDevices(this,2)" class="sub-action-btn" style="flex:1;padding:10px 0;">2</button>
+          <button onclick="selectDevices(this,3)" class="sub-action-btn primary" style="flex:1;padding:10px 0;">3</button>
+          <button onclick="selectDevices(this,5)" class="sub-action-btn" style="flex:1;padding:10px 0;">5</button>
+          <button onclick="selectDevices(this,10)" class="sub-action-btn" style="flex:1;padding:10px 0;">10</button>
         </div>
-        <div class="dash-card" style="display:flex;align-items:center;gap:12px;padding:16px;cursor:pointer;transition:background 0.2s;" onclick="alert('Статистика доступна в боте через /stats')">
-          <div style="width:36px;height:36px;background:rgba(26,111,219,0.2);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue-bright);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Метка (необязательно)</label>
+        <input id="ck-label" type="text" placeholder="Например: ivan_petrov" class="modal-input" style="margin-bottom:20px;">
+
+        <button class="modal-submit" onclick="createKey()" id="ck-btn">Создать ключ →</button>
+
+        <!-- Результат -->
+        <div id="ck-result" style="display:none;margin-top:16px;">
+          <div style="background:rgba(38,219,112,0.1);border:1px solid rgba(38,219,112,0.3);border-radius:10px;padding:16px;">
+            <div style="font-size:12px;color:#26db70;margin-bottom:8px;">✓ Ключ создан успешно</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--white);word-break:break-all;margin-bottom:10px;" id="ck-sub-url"></div>
+            <button class="sub-action-btn" onclick="copyUrl(document.getElementById('ck-sub-url').textContent,this)" style="width:100%;">📋 Скопировать ссылку</button>
           </div>
-          <div><div style="font-size:13px;font-weight:600;color:var(--white);">Статистика</div><div style="font-size:11px;color:var(--gray);">/stats в боте</div></div>
         </div>
+      </div>
+    </div>
+
+    <!-- МОДАЛ: РЕДАКТИРОВАТЬ КЛИЕНТА -->
+    <div class="modal-overlay" id="edit-client-modal" onclick="if(event.target===this)closeEditClientModal()" style="display:none;">
+      <div class="modal" style="max-width:440px;">
+        <button class="modal-close" onclick="closeEditClientModal()">✕</button>
+        <h3 style="margin-bottom:6px;">Управление клиентом</h3>
+        <p style="color:var(--gray);font-size:13px;margin-bottom:20px;" id="ec-username"></p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+          <div>
+            <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">+ Дней</label>
+            <input id="ec-days" type="number" placeholder="0" min="0" max="365" class="modal-input" style="margin-bottom:0;">
+          </div>
+          <div>
+            <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">+ ГБ трафика</label>
+            <input id="ec-gb" type="number" placeholder="0" min="0" class="modal-input" style="margin-bottom:0;">
+          </div>
+        </div>
+
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Устройств</label>
+        <div style="display:flex;gap:8px;margin-bottom:16px;" id="ec-devices-btns">
+          <button onclick="selectEcDevices(this,1)" class="sub-action-btn" style="flex:1;padding:8px 0;">1</button>
+          <button onclick="selectEcDevices(this,2)" class="sub-action-btn" style="flex:1;padding:8px 0;">2</button>
+          <button onclick="selectEcDevices(this,3)" class="sub-action-btn" style="flex:1;padding:8px 0;">3</button>
+          <button onclick="selectEcDevices(this,5)" class="sub-action-btn" style="flex:1;padding:8px 0;">5</button>
+          <button onclick="selectEcDevices(this,10)" class="sub-action-btn" style="flex:1;padding:8px 0;">10</button>
+        </div>
+
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Статус</label>
+        <div style="display:flex;gap:8px;margin-bottom:20px;">
+          <button onclick="selectStatus(this,'ACTIVE')" class="sub-action-btn primary" id="ec-status-active" style="flex:1;">Активен</button>
+          <button onclick="selectStatus(this,'DISABLED')" class="sub-action-btn" id="ec-status-disabled" style="flex:1;">Отключён</button>
+        </div>
+
+        <button class="modal-submit" onclick="updateClient()" id="ec-btn">Применить изменения →</button>
+      </div>
+    </div>
+
+    <!-- МОДАЛ: SUBSCRIPTION PAGE -->
+    <div class="modal-overlay" id="subpage-modal" onclick="if(event.target===this)closeSubpageModal()" style="display:none;">
+      <div class="modal" style="max-width:440px;">
+        <button class="modal-close" onclick="closeSubpageModal()">✕</button>
+        <div style="width:48px;height:48px;background:rgba(26,111,219,0.2);border:1px solid rgba(61,158,255,0.3);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--blue-bright);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <h3 style="text-align:center;margin-bottom:6px;">Subscription Page</h3>
+        <p style="text-align:center;color:var(--gray);font-size:13px;margin-bottom:24px;">Страница которую видят ваши клиенты</p>
+
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Название</label>
+        <input id="sp-title" type="text" placeholder="Например: MyVPN" class="modal-input">
+
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Описание</label>
+        <textarea id="sp-desc" placeholder="Описание вашего VPN сервиса..." style="width:100%;background:rgba(61,158,255,0.08);border:1px solid rgba(61,158,255,0.2);border-radius:8px;padding:10px 14px;color:var(--white);font-size:14px;font-family:'Exo 2',sans-serif;margin-bottom:14px;min-height:80px;resize:vertical;box-sizing:border-box;"></textarea>
+
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">Ссылка поддержки</label>
+        <input id="sp-support" type="text" placeholder="https://t.me/your_support" class="modal-input">
+
+        <label style="font-size:12px;color:var(--gray);display:block;margin-bottom:6px;">URL логотипа</label>
+        <input id="sp-logo" type="text" placeholder="https://i.ibb.co/..." class="modal-input">
+
+        <button class="modal-submit" onclick="saveSubpage()" id="sp-btn">Сохранить →</button>
       </div>
     </div>
 
@@ -3001,6 +3119,232 @@ renderPricing();
 calcProfit();
 setInterval(updatePings, 3000);
 restoreSession();
+
+// ==================== RESELLER FUNCTIONS ====================
+let _resellerClients = [];
+let _editClientUuid = null;
+let _ckDevices = 3;
+let _ecDevices = null;
+let _ecStatus = 'ACTIVE';
+
+function resellerTab(tab, btn) {
+  document.querySelectorAll('.reseller-nav').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  ['keys','create','subpage','tariffs'].forEach(t => {
+    const el = document.getElementById('rt-' + t);
+    if (el) el.style.display = t === tab ? '' : 'none';
+  });
+  if (tab === 'keys') loadResellerClients();
+}
+
+async function loadResellerClients() {
+  const list = document.getElementById('clients-list');
+  list.innerHTML = `<div style="text-align:center;padding:30px;color:var(--gray);">Загрузка...</div>`;
+  try {
+    const token = localStorage.getItem('sker_token');
+    const r = await fetch(API_BASE + '/reseller/keys', {headers:{'Authorization':'Bearer '+token}});
+    const data = await r.json();
+    _resellerClients = data.keys || [];
+    document.getElementById('rc-clients').textContent = _resellerClients.length;
+    document.getElementById('rc-active').textContent = _resellerClients.filter(c=>c.status==='ACTIVE').length;
+    document.getElementById('rc-expired').textContent = _resellerClients.filter(c=>c.status!=='ACTIVE').length;
+    document.getElementById('rc-keys').textContent = _resellerClients.length;
+    renderClientsList(_resellerClients);
+  } catch(e) {
+    list.innerHTML = `<div style="text-align:center;padding:30px;color:#ff6b6b;">Ошибка загрузки</div>`;
+  }
+}
+
+function renderClientsList(clients) {
+  const list = document.getElementById('clients-list');
+  if (!clients.length) {
+    list.innerHTML = `<div style="text-align:center;padding:40px;color:var(--gray);">
+      <div style="margin-bottom:12px;opacity:0.5;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+      <div>Ключей нет — создайте первый!</div></div>`;
+    return;
+  }
+  list.innerHTML = clients.map(c => {
+    const isActive = c.status === 'ACTIVE';
+    const pct = Math.min(100, c.trafficLimitGb > 0 ? (c.trafficUsedGb / c.trafficLimitGb) * 100 : 0);
+    const exp = c.expireAt ? c.expireAt.slice(0,10) : '—';
+    return `<div class="dash-card" style="padding:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;color:var(--white);">${c.username}</div>
+          <div style="font-size:11px;color:var(--gray);margin-top:2px;">до ${exp} · ${c.devices} уст.</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:${isActive?'rgba(38,219,112,0.15)':'rgba(255,107,107,0.15)'};color:${isActive?'#26db70':'#ff6b6b'};border:1px solid ${isActive?'rgba(38,219,112,0.3)':'rgba(255,107,107,0.3)'};">${isActive?'● АКТИВНА':'● ИСТЕКЛА'}</span>
+          <button class="sub-action-btn" onclick="openEditClientModal('${c.uuid}','${c.username}',${c.devices},'${c.status}')" style="padding:4px 10px;font-size:11px;">Ред.</button>
+          <button class="sub-action-btn" onclick="copyUrl('${c.subUrl}',this)" style="padding:4px 10px;font-size:11px;">📋</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:16px;font-size:12px;color:var(--gray);margin-bottom:8px;">
+        <span>Трафик: <strong style="color:var(--white);">${c.trafficUsedGb}/${c.trafficLimitGb} ГБ</strong></span>
+        <span>Устройств: <strong style="color:var(--white);">${c.devices}</strong></span>
+      </div>
+      <div style="height:4px;background:rgba(61,158,255,0.1);border-radius:2px;overflow:hidden;">
+        <div style="height:100%;width:${pct}%;background:${pct>80?'#ff6b6b':'var(--blue-bright)'};border-radius:2px;transition:width 0.3s;"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterClients(q) {
+  const filtered = q ? _resellerClients.filter(c => c.username.toLowerCase().includes(q.toLowerCase())) : _resellerClients;
+  renderClientsList(filtered);
+}
+
+function openCreateKeyModal(tariff) {
+  document.getElementById('create-key-modal').style.display = 'flex';
+  document.getElementById('ck-result').style.display = 'none';
+  document.getElementById('ck-btn').disabled = false;
+  document.getElementById('ck-btn').textContent = 'Создать ключ →';
+  if (tariff) document.getElementById('ck-tariff').value = tariff;
+  _ckDevices = 3;
+  document.querySelectorAll('#ck-devices-btns button').forEach(b => b.classList.remove('primary'));
+  document.querySelectorAll('#ck-devices-btns button')[2].classList.add('primary');
+}
+function closeCreateKeyModal() { document.getElementById('create-key-modal').style.display = 'none'; }
+
+function selectDevices(btn, n) {
+  _ckDevices = n;
+  document.querySelectorAll('#ck-devices-btns button').forEach(b => b.classList.remove('primary'));
+  btn.classList.add('primary');
+}
+
+async function createKey() {
+  const btn = document.getElementById('ck-btn');
+  btn.disabled = true; btn.textContent = 'Создание...';
+  try {
+    const token = localStorage.getItem('sker_token');
+    const r = await fetch(API_BASE + '/reseller/keys/create', {
+      method: 'POST',
+      headers: {'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+      body: JSON.stringify({
+        tariff: document.getElementById('ck-tariff').value,
+        devices: _ckDevices,
+        note: document.getElementById('ck-label').value || '',
+      })
+    });
+    const data = await r.json();
+    if (data.ok) {
+      document.getElementById('ck-result').style.display = 'block';
+      document.getElementById('ck-sub-url').textContent = data.subUrl || data.sub_url;
+      btn.textContent = '✓ Создан!';
+      loadResellerClients();
+    } else {
+      btn.disabled = false; btn.textContent = 'Создать ключ →';
+      alert('Ошибка: ' + JSON.stringify(data));
+    }
+  } catch(e) {
+    btn.disabled = false; btn.textContent = 'Создать ключ →';
+    alert('Ошибка соединения');
+  }
+}
+
+function openEditClientModal(uuid, username, devices, status) {
+  _editClientUuid = uuid;
+  _ecDevices = devices;
+  _ecStatus = status;
+  document.getElementById('ec-username').textContent = username;
+  document.getElementById('ec-days').value = '';
+  document.getElementById('ec-gb').value = '';
+  document.getElementById('ec-btn').disabled = false;
+  document.getElementById('ec-btn').textContent = 'Применить изменения →';
+  document.querySelectorAll('#ec-devices-btns button').forEach(b => b.classList.remove('primary'));
+  const devMap = {1:0,2:1,3:2,5:3,10:4};
+  if (devMap[devices] !== undefined) document.querySelectorAll('#ec-devices-btns button')[devMap[devices]].classList.add('primary');
+  document.getElementById('ec-status-active').className = status==='ACTIVE' ? 'sub-action-btn primary' : 'sub-action-btn';
+  document.getElementById('ec-status-disabled').className = status!=='ACTIVE' ? 'sub-action-btn primary' : 'sub-action-btn';
+  document.getElementById('edit-client-modal').style.display = 'flex';
+}
+function closeEditClientModal() { document.getElementById('edit-client-modal').style.display = 'none'; }
+
+function selectEcDevices(btn, n) {
+  _ecDevices = n;
+  document.querySelectorAll('#ec-devices-btns button').forEach(b => b.classList.remove('primary'));
+  btn.classList.add('primary');
+}
+function selectStatus(btn, status) {
+  _ecStatus = status;
+  document.getElementById('ec-status-active').className = status==='ACTIVE' ? 'sub-action-btn primary' : 'sub-action-btn';
+  document.getElementById('ec-status-disabled').className = status!=='ACTIVE' ? 'sub-action-btn primary' : 'sub-action-btn';
+}
+
+async function updateClient() {
+  const btn = document.getElementById('ec-btn');
+  btn.disabled = true; btn.textContent = 'Сохранение...';
+  const token = localStorage.getItem('sker_token');
+  const uuid = _editClientUuid;
+  const days = parseInt(document.getElementById('ec-days').value);
+  const gb = parseInt(document.getElementById('ec-gb').value);
+  try {
+    const calls = [];
+    if (days > 0) calls.push(fetch(API_BASE + '/reseller/keys/extend', {
+      method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+      body: JSON.stringify({uuid, days})
+    }));
+    if (gb > 0) calls.push(fetch(API_BASE + '/reseller/keys/traffic', {
+      method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+      body: JSON.stringify({uuid, gb})
+    }));
+    if (_ecDevices) calls.push(fetch(API_BASE + '/reseller/keys/devices', {
+      method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+      body: JSON.stringify({uuid, devices: _ecDevices})
+    }));
+    calls.push(fetch(API_BASE + '/reseller/keys/status', {
+      method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+      body: JSON.stringify({uuid, status: _ecStatus})
+    }));
+    await Promise.all(calls);
+    closeEditClientModal();
+    loadResellerClients();
+  } catch(e) {
+    btn.disabled = false; btn.textContent = 'Применить изменения →';
+    alert('Ошибка соединения');
+  }
+}
+
+async function openSubpageModal() {
+  document.getElementById('subpage-modal').style.display = 'flex';
+  document.getElementById('sp-btn').textContent = 'Загрузка...';
+  try {
+    const token = localStorage.getItem('sker_token');
+    const r = await fetch(API_BASE + '/reseller/subpage', {headers:{'Authorization':'Bearer '+token}});
+    const data = await r.json();
+    if (data.config) {
+      document.getElementById('sp-title').value = data.config.title || '';
+      document.getElementById('sp-desc').value = data.config.description || '';
+      document.getElementById('sp-support').value = data.config.supportLink || '';
+      document.getElementById('sp-logo').value = data.config.logoUrl || '';
+    }
+  } catch(e) {}
+  document.getElementById('sp-btn').textContent = 'Сохранить →';
+}
+function closeSubpageModal() { document.getElementById('subpage-modal').style.display = 'none'; }
+
+async function saveSubpage() {
+  const btn = document.getElementById('sp-btn');
+  btn.disabled = true; btn.textContent = 'Сохранение...';
+  try {
+    const token = localStorage.getItem('sker_token');
+    const r = await fetch(API_BASE + '/reseller/subpage', {
+      method: 'PUT',
+      headers: {'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+      body: JSON.stringify({
+        title: document.getElementById('sp-title').value || '',
+        description: document.getElementById('sp-desc').value || '',
+        support_url: document.getElementById('sp-support').value || '',
+        logo_url: document.getElementById('sp-logo').value || '',
+      })
+    });
+    const data = await r.json();
+    if (data.ok) { closeSubpageModal(); alert('✅ Subscription Page обновлён!'); }
+    else { alert('Ошибка: ' + JSON.stringify(data)); }
+  } catch(e) { alert('Ошибка соединения'); }
+  btn.disabled = false; btn.textContent = 'Сохранить →';
+}
 
 // Twemoji — красивые эмодзи
 twemoji.parse(document.body, {
